@@ -20,6 +20,8 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}))
     repeat_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Powtórz hasło'}))
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Imię'}))
+    surname = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Nazwisko'}))
 
     def clean(self):
         cleaned_data = super().clean()

@@ -60,6 +60,8 @@ class RegistrationView(View):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            User.objects.create_user(email=email, password=password)
+            name = form.cleaned_data.get('name')
+            surname = form.cleaned_data.get('surname')
+            User.objects.create_user(email=email, password=password, first_name=name, last_name=surname)
             return redirect('/login')
         return render(request, "GiveItFreeApp/register.html", {'form': form})

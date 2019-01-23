@@ -28,20 +28,27 @@
     <section class="login-page">
       <h2>Załóż konto</h2>
       <form method="post">
-        <div class="form-group">
-            {{ form.email.errors }}
-            {{ form.email }}
+          {% for field in form %}
+            <div class="form-group">
+                {{ field.errors }}
+                {{ field }}
+            </div>
+          {% endfor %}
+
+{#        <div class="form-group">#}
+{#            {{ form.email.errors }}#}
+{#            {{ form.email }}#}
 {#          <input type="email" name="email" placeholder="Email" />#}
-        </div>
-        <div class="form-group">
-            {{ form.password }}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            {{ form.password }}#}
 {#          <input type="password" name="password" placeholder="Hasło" />#}
-        </div>
-        <div class="form-group">
-            {{ form.repeat_password.errors }}
-            {{ form.repeat_password }}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            {{ form.repeat_password.errors }}#}
+{#            {{ form.repeat_password }}#}
 {#          <input type="password" name="password2" placeholder="Powtórz hasło" />#}
-        </div>
+{#        </div>#}
 
         <div class="form-group form-group--buttons">
           <a href="/login" class="btn btn--without-border">Zaloguj się</a>
