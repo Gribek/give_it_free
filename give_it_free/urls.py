@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^$', LandingPage.as_view()),
     url(r'^login$', LoginView.as_view()),
     url(r'^logout$', LogoutView.as_view()),
-    url(r'^main_page$', MainUserPage.as_view()),
+    url(r'^main_page$', MainPageUser.as_view()),
+    url(r'^registration$', RegistrationView .as_view()),
 
 ]

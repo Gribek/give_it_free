@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from GiveItFreeApp.forms import *
@@ -11,7 +12,7 @@ class LandingPage(View):
         return render(request, "GiveItFreeApp/index.html")
 
 
-class MainUserPage(View):
+class MainPageUser(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, "GiveItFreeApp/form.html")
 
@@ -47,3 +48,18 @@ class LogoutView(View):
             return redirect("/")
         else:
             return HttpResponse("Nie jesteś zalogowany")
+
+
+class RegistrationView(View):
+    def get(self, request):
+        form = RegistrationForm()
+        return render(request, "GiveItFreeApp/register.html", {'form': form})
+
+    def post(self, request):
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            User.objects.create_user(email=email, password=password)
+            return redirect('/login')
+        return render(request, "GiveItFreeApp/register.html", {'form': form})
