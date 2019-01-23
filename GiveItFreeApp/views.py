@@ -11,6 +11,11 @@ class LandingPage(View):
         return render(request, "GiveItFreeApp/index.html")
 
 
+class MainUserPage(View):
+    def get(self, request):
+        return render(request, "GiveItFreeApp/form.html")
+
+
 # * * * * * Users * * * * * #
 
 class LoginView(View):
@@ -29,7 +34,7 @@ class LoginView(View):
                 next_view = request.GET.get("next")
                 if next_view is not None:
                     return redirect(next_view)
-                return redirect("/")
+                return redirect("/main_page")
             else:
                 return render(request, "GiveItFreeApp/login.html", {'form': form})
         return render(request, "GiveItFreeApp/login.html", {'form': form})
