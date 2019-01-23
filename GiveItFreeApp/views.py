@@ -37,7 +37,7 @@ class LoginView(View):
 
 class LogoutView(View):
     def get(self, request):
-        if request.user.is_authentucated:  # TODO sprawdzić czy metoda jest poprawna (user niezalogowany = 500 ! )
+        if request.user.is_authenticated:
             logout(request)
             return redirect("/")
         else:
