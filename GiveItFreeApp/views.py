@@ -21,14 +21,14 @@ class LoginView(View):
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get("user")
+            email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
-                next = request.GET.get("next")
-                if next is not None:
-                    return redirect(next)
+                next_view = request.GET.get("next")
+                if next_view is not None:
+                    return redirect(next_view)
                 return redirect("/")
             else:
                 return render(request, "GiveItFreeApp/login.html", {'form': form})
