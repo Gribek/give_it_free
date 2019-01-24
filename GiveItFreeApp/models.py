@@ -53,11 +53,11 @@ class User(AbstractUser):
 
 
 class TrustedInstitution(models.Model):
-    name = models.CharField(max_length=64)
-    purpose = models.CharField(max_length=128)
-    needs = models.CharField(max_length=128)
-    localization = models.CharField(max_length=64)
-    target_groups = models.ManyToManyField("TargetGroup")
+    name = models.CharField(max_length=64, verbose_name="Nazwa instytucji")
+    purpose = models.CharField(max_length=128, verbose_name="Cel i misja")
+    needs = models.CharField(max_length=128, verbose_name="Potrzebne datki")
+    localization = models.CharField(max_length=64, verbose_name="Lokalizacja")
+    target_groups = models.ManyToManyField("TargetGroup", verbose_name="Grupy docelowe")
 
     def __str__(self):
         return self.name
@@ -68,7 +68,7 @@ class TrustedInstitution(models.Model):
 
 
 class TargetGroup(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, verbose_name="Nazwa grupy")
 
     def __str__(self):
         return self.name
