@@ -59,9 +59,23 @@ class TrustedInstitution(models.Model):
     localization = models.CharField(max_length=64)
     target_groups = models.ManyToManyField("TargetGroup")
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Zaufaną instytucję"
+        verbose_name_plural = "Zaufane instytucje"
+
 
 class TargetGroup(models.Model):
     name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Grupę docelową"
+        verbose_name_plural = "Grupy docelowe"
 
 
 class Gift(models.Model):
