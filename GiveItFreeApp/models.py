@@ -55,8 +55,13 @@ class User(AbstractUser):
 class TrustedInstitution(models.Model):
     name = models.CharField(max_length=64)
     purpose = models.CharField(max_length=128)
+    needs = models.CharField(max_length=128)
     localization = models.CharField(max_length=64)
-    target_groups = ArrayField(models.CharField(max_length=32))
+    target_groups = models.ManyToManyField("TargetGroup")
+
+
+class TargetGroup(models.Model):
+    name = models.CharField(max_length=32)
 
 
 class Gift(models.Model):
