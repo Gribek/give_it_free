@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import ugettext_lazy as _
-from GiveItFreeApp.models import User
-
+from GiveItFreeApp.models import User, TrustedInstitution, TargetGroup
 
 # Register your models here.
+
+admin.site.register(TrustedInstitution)
+admin.site.register(TargetGroup)
+
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
