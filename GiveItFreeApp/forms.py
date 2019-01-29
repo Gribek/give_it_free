@@ -38,7 +38,7 @@ class RegistrationForm(forms.Form):
         return cleaned_data
 
 
-class EditUserProfileForm(ModelForm):
+class EditUserProfileForm(ModelForm):  # TODO Email change validation
     class Meta:
         model = User
         fields = ['email', 'first_name', 'last_name']
@@ -49,8 +49,8 @@ class EditUserProfileForm(ModelForm):
 
 
 class PasswordChangeForm(forms.Form):
-    new_password = forms.CharField(label="Nowe hasło", widget=forms.PasswordInput)
-    repeat_password = forms.CharField(label="Powtórz nowe hasło", widget=forms.PasswordInput)
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Nowe hasło'}))
+    repeat_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Powtórz nowe hasło'}))
 
     def clean(self):
         cleaned_date = super().clean()

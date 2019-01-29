@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form method="post">
-    {{ form }}
-    <input type="submit" name="profile_submit" value="Zapisz">
-    {% csrf_token %}
-</form>
-</body>
-</html>
+{% extends  "GiveItFreeApp/base_user.html" %}
+
+{% block content %}
+    <section class="login-page">
+        <h2>Zmień dane</h2>
+        <form method="post">
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.errors }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <div class="form-group form-group--buttons">
+                <button class="btn" type="submit">Zapisz zmiany</button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </section>
+{% endblock %}
