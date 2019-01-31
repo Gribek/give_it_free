@@ -3,7 +3,12 @@ from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 from GiveItFreeApp.forms import *
+from GiveItFreeApp.models import TrustedInstitution
+from GiveItFreeApp.serializers import TrustedInstitutionSerializer
 
 
 # Create your views here.
@@ -99,3 +104,12 @@ class PasswordChangeView(LoginRequiredMixin, View):
             current_user.save()
             return redirect("/login")
         return render(request, "GiveItFreeApp/password_change.html", {'form': form})
+
+
+# * * * * * REST * * * * * #
+
+class TrustedInstitutionsView(APIView):
+    def get(self, request, format=None):
+        trusted_institutions = TrustedInstitution.objects.all()
+        serializer = TrustedInstitutionSerializer(trusted_institutions, many=True, context={'request': request})
+        return Response(serializer.data)

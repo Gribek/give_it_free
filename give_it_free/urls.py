@@ -27,5 +27,6 @@ urlpatterns = [
     url(r'^registration$', RegistrationView .as_view()),
     url(r'^edit_profile$', EditUserProfileView .as_view()),
     url(r'^edit_password$', PasswordChangeView .as_view()),
+    url(r'^trusted_institutions_list$', TrustedInstitutionsView.as_view()),
 
 ]
