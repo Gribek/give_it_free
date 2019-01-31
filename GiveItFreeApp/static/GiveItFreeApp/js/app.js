@@ -253,3 +253,40 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 });
+
+
+$(function () {
+  const $trustedInstitutions = $(".trusted-institutions");
+  const apiURL = "http://127.0.0.1:8002/trusted_institutions_list";
+
+
+  function loadTrustedInstitutions() {
+    $.ajax({
+      url: apiURL,
+      method: "GET",
+      dataType: "json"
+    }).done(function (resp) {
+      resp.forEach(trustedInstitution => {
+        insertTrustedInstitution(trustedInstitution);
+      });
+    });
+  }
+
+  loadTrustedInstitutions();
+
+
+  function insertTrustedInstitution(trustedInstitution) {
+    const $div = $("<div class='form-group form-group--checkbox'>");
+    const $label = $("<label>");
+    const $input = $("<input type='radio' name='organization' value='old'>");
+    const $span = $("<span class='checkbox radio'>");
+    const $spanDescription = $("<span class='description'>");
+    const $divTitle = $("<div class='title'>").text(trustedInstitution.name);
+    const $divSubtitle = $("<div class='subtitle'>").text(trustedInstitution.purpose);
+
+    $spanDescription.append($divTitle, $divSubtitle);
+    $label.append($input, $span, $spanDescription);
+    $div.append($label);
+    $div.insertAfter($trustedInstitutions);
+  }
+});
