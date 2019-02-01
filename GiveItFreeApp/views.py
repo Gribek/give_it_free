@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from GiveItFreeApp.forms import *
-from GiveItFreeApp.models import TrustedInstitution
+from GiveItFreeApp.models import TrustedInstitution, TargetGroup
 from GiveItFreeApp.serializers import TrustedInstitutionSerializer
 
 
@@ -19,7 +19,8 @@ class LandingPage(View):
 
 class MainPageUser(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, "GiveItFreeApp/form.html")
+        ctx = {"target_groups": TargetGroup.objects.all().order_by("name")}
+        return render(request, "GiveItFreeApp/form.html", ctx)
 
 
 # * * * * * Users * * * * * #
@@ -109,7 +110,18 @@ class PasswordChangeView(LoginRequiredMixin, View):
 # * * * * * REST * * * * * #
 
 class TrustedInstitutionsView(APIView):
-    def get(self, request, format=None):
-        trusted_institutions = TrustedInstitution.objects.all()
+    def post(self, request, format=None):
+        if request.is_ajax():
+            localization = request.POST.get('localization')
+            target_groups_list = request.POST.getlist('target_groups[]')
+            institution_name = request.POST.get('institution_name')
+            trusted_institutions = TrustedInstitution.objects.all()
+            if institution_name:
+                trusted_institutions = trusted_institutions.filter(name__contains=institution_name)
+            if localization != "- wybierz -":
+                trusted_institutions = trusted_institutions.filter(localization=localization)
+            if target_groups_list:
+                target_groups = TargetGroup.objects.filter(pk__in=target_groups_list)
+                trusted_institutions = trusted_institutions.filter(target_groups__in=target_groups)
         serializer = TrustedInstitutionSerializer(trusted_institutions, many=True, context={'request': request})
         return Response(serializer.data)

@@ -182,40 +182,50 @@
             <div class="form-section">
               <h4>Komu chcesz pomóc?</h4>
               <div class="form-section--checkboxes">
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="children" />
-                    <span class="checkbox">dzieciom</span>
-                  </label>
-                </div>
 
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="mothers" />
-                    <span class="checkbox">samotnym matkom</span>
-                  </label>
-                </div>
+                  {% for target_group in target_groups %}
+                      <div class="form-group form-group--checkbox">
+                        <label>
+                            <input type="checkbox" name="help[]" data-id="{{ target_group.id }}"/>
+                            <span class="checkbox">{{ target_group.name }}</span>
+                        </label>
+                      </div>
+                  {% endfor %}
 
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="homeless" />
-                    <span class="checkbox">bezdomnym</span>
-                  </label>
-                </div>
-
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="disabled" />
-                    <span class="checkbox">niepełnosprawnym</span>
-                  </label>
-                </div>
-
-                <div class="form-group form-group--checkbox">
-                  <label>
-                    <input type="checkbox" name="help[]" value="old" />
-                    <span class="checkbox">osobom starszym</span>
-                  </label>
-                </div>
+{#                <div class="form-group form-group--checkbox">#}
+{#                  <label>#}
+{#                    <input type="checkbox" name="help[]" data-id="1" value="children" />#}
+{#                    <span class="checkbox">dzieciom</span>#}
+{#                  </label>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group form-group--checkbox">#}
+{#                  <label>#}
+{#                    <input type="checkbox" name="help[]" value="mothers" />#}
+{#                    <span class="checkbox">samotnym matkom</span>#}
+{#                  </label>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group form-group--checkbox">#}
+{#                  <label>#}
+{#                    <input type="checkbox" name="help[]" value="homeless" />#}
+{#                    <span class="checkbox">bezdomnym</span>#}
+{#                  </label>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group form-group--checkbox">#}
+{#                  <label>#}
+{#                    <input type="checkbox" name="help[]" value="disabled" />#}
+{#                    <span class="checkbox">niepełnosprawnym</span>#}
+{#                  </label>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group form-group--checkbox">#}
+{#                  <label>#}
+{#                    <input type="checkbox" name="help[]" value="old" />#}
+{#                    <span class="checkbox">osobom starszym</span>#}
+{#                  </label>#}
+{#                </div>#}
               </div>
             </div>
 
@@ -381,6 +391,7 @@
               informacje o odbiorze.
             </h2>
           </div>
+            {% csrf_token %}
         </form>
       </div>
     </section>

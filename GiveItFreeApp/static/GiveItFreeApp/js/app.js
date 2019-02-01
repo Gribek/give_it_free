@@ -260,44 +260,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $(function () {
     const $trustedInstitutions = $(".trusted_institutions");
-    const apiURL = "http://127.0.0.1:8002/trusted_institutions_list";
+    const apiURL = "http://127.0.0.1:8000/trusted_institutions_list";
 
-
-    // function loadTrustedInstitutions() {
-    //   $.ajax({
-    //     url: apiURL,
-    //     method: "GET",
-    //     dataType: "json"
-    //   }).done(function (resp) {
-    //     resp.forEach(trustedInstitution => {
-    //       insertTrustedInstitution(trustedInstitution);
-    //     });
-    //   });
-    // }
-    //
-    // loadTrustedInstitutions();
-    //
-    //
-    // function insertTrustedInstitution(trustedInstitution) {
-    //   const $div = $("<div class='form-group form-group--checkbox'>");
-    //   const $label = $("<label>");
-    //   const $input = $("<input type='radio' name='organization' value='old'>");
-    //   const $span = $("<span class='checkbox radio'>");
-    //   const $spanDescription = $("<span class='description'>");
-    //   const $divTitle = $("<div class='title'>").text(trustedInstitution.name);
-    //   const $divSubtitle = $("<div class='subtitle'>").text(trustedInstitution.purpose);
-    //
-    //   $spanDescription.append($divTitle, $divSubtitle);
-    //   $label.append($input, $span, $spanDescription);
-    //   $div.append($label);
-    //   $div.insertAfter($trustedInstitutions);
-    // }
 
     $("#institution_search_button").on("click", function () {
         const $organization_search = $("#organization_search").val();
         const $help = [];
         $.each($("input[name^='help']:checked"), function () {
-            $help.push($(this).val());
+            $help.push($(this).data("id"));
         });
         const $localization = $('#localization').find("div.dropdown").find("div").text();
 
@@ -306,21 +276,25 @@ $(function () {
         console.log($localization);
 
         const data = {
-            localization: $localization,
-            institution_name: $organization_search,
-            target_groups: $help
+            'localization': $localization,
+            'institution_name': $organization_search,
+            'target_groups[]': $help,
+            'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
         };
 
         function loadTrustedInstitutions() {
             $.ajax({
                 url: apiURL,
-                method: "GET",
+                method: "POST",
+                data: data,
                 dataType: "json"
             }).done(function (resp) {
                 resp.forEach(trustedInstitution => {
                     insertTrustedInstitution(trustedInstitution);
                 });
-            })
+            }).fail(function (xhr, status, err) {
+                console.log(xhr, status, err);
+            });
         }
 
         $(".trusted_institutions").empty();
@@ -342,6 +316,6 @@ $(function () {
             $div.appendTo($trustedInstitutions);
         }
 
-    })
+    });
 
 });
