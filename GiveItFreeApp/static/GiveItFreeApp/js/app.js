@@ -259,17 +259,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 $(function () {
-    const $trustedInstitutions = $(".trusted_institutions");
-    const apiURL = "http://127.0.0.1:8000/trusted_institutions_list";
 
-
+    /**
+     * Trusted institutions search in form
+     */
     $("#institution_search_button").on("click", function () {
+        const $trustedInstitutions = $(".trusted_institutions");
+        const apiURL = "http://127.0.0.1:8000/trusted_institutions_list";
+
+        const $localization = $('#localization').find("div.dropdown").find("div").text();
         const $organization_search = $("#organization_search").val();
         const $help = [];
         $.each($("input[name^='help']:checked"), function () {
             $help.push($(this).data("id"));
         });
-        const $localization = $('#localization').find("div.dropdown").find("div").text();
 
         console.log($help);
         console.log($organization_search);
@@ -282,6 +285,7 @@ $(function () {
             'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
         };
 
+
         function loadTrustedInstitutions() {
             $.ajax({
                 url: apiURL,
@@ -289,9 +293,15 @@ $(function () {
                 data: data,
                 dataType: "json"
             }).done(function (resp) {
-                resp.forEach(trustedInstitution => {
+                if (resp.length === 0){
+                    const $div = $("<h3>").text("Brak fundacji pasujących do wprowadzonych danych");
+                    $div.appendTo($trustedInstitutions);
+                    console.log("Brak")
+                } else {
+                    resp.forEach(trustedInstitution => {
                     insertTrustedInstitution(trustedInstitution);
-                });
+                    });
+                }
             }).fail(function (xhr, status, err) {
                 console.log(xhr, status, err);
             });
