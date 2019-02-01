@@ -282,21 +282,20 @@ $(function () {
             'localization': $localization,
             'institution_name': $organization_search,
             'target_groups[]': $help,
-            'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            // 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
         };
 
 
         function loadTrustedInstitutions() {
             $.ajax({
                 url: apiURL,
-                method: "POST",
+                method: "GET",
                 data: data,
                 dataType: "json"
             }).done(function (resp) {
                 if (resp.length === 0){
                     const $div = $("<h3>").text("Brak fundacji pasujących do wprowadzonych danych");
                     $div.appendTo($trustedInstitutions);
-                    console.log("Brak")
                 } else {
                     resp.forEach(trustedInstitution => {
                     insertTrustedInstitution(trustedInstitution);
@@ -327,5 +326,9 @@ $(function () {
         }
 
     });
-
+    
+    $("#summary").on("click", function () {
+        const $data = ($('form')).serialize();
+        console.log($data)
+    })
 });

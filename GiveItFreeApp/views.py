@@ -110,11 +110,11 @@ class PasswordChangeView(LoginRequiredMixin, View):
 # * * * * * REST * * * * * #
 
 class TrustedInstitutionsView(APIView):
-    def post(self, request, format=None):
+    def get(self, request, format=None):
         if request.is_ajax():
-            localization = request.POST.get('localization')
-            target_groups_list = request.POST.getlist('target_groups[]')
-            institution_name = request.POST.get('institution_name')
+            localization = request.GET.get('localization')
+            target_groups_list = request.GET.getlist('target_groups[]')
+            institution_name = request.GET.get('institution_name')
             trusted_institutions = TrustedInstitution.objects.all()
             if institution_name:
                 trusted_institutions = trusted_institutions.filter(name__contains=institution_name)
