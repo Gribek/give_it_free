@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from GiveItFreeApp.forms import *
 from GiveItFreeApp.models import TrustedInstitution, TargetGroup
-from GiveItFreeApp.serializers import TrustedInstitutionSerializer
+from GiveItFreeApp.serializers import *
 
 
 # Create your views here.
@@ -125,3 +125,19 @@ class TrustedInstitutionsView(APIView):
                 trusted_institutions = trusted_institutions.filter(target_groups__in=target_groups)
         serializer = TrustedInstitutionSerializer(trusted_institutions, many=True, context={'request': request})
         return Response(serializer.data)
+
+
+class GiftSave(APIView):
+    def post(self, request, format=None):
+        if request.is_ajax:
+            current_user = request.user
+            address_serializer = PickUpAddressSerializer(data=request.data)
+            gift_serializer = GiftSerializer(data=request.data)
+            if address_serializer.is_valid() and gift_serializer.is_valid():
+                address_instance = address_serializer.save()
+                gift_serializer.save(giver=current_user, pick_up_address=address_instance)
+                return Response(address_serializer.data)
+
+
+class GiftSummary(APIView):
+    pass

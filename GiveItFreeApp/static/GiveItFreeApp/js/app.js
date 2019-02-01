@@ -293,12 +293,12 @@ $(function () {
                 data: data,
                 dataType: "json"
             }).done(function (resp) {
-                if (resp.length === 0){
+                if (resp.length === 0) {
                     const $div = $("<h3>").text("Brak fundacji pasujących do wprowadzonych danych");
                     $div.appendTo($trustedInstitutions);
                 } else {
                     resp.forEach(trustedInstitution => {
-                    insertTrustedInstitution(trustedInstitution);
+                        insertTrustedInstitution(trustedInstitution);
                     });
                 }
             }).fail(function (xhr, status, err) {
@@ -313,7 +313,7 @@ $(function () {
         function insertTrustedInstitution(trustedInstitution) {
             const $div = $("<div class='form-group form-group--checkbox'>");
             const $label = $("<label>");
-            const $input = $("<input type='radio' name='organization' value='old'>");
+            const $input = $("<input type='radio' name='trusted_institution'>").attr("value", trustedInstitution.id);
             const $span = $("<span class='checkbox radio'>");
             const $spanDescription = $("<span class='description'>");
             const $divTitle = $("<div class='title'>").text(trustedInstitution.name);
@@ -326,9 +326,21 @@ $(function () {
         }
 
     });
-    
-    $("#summary").on("click", function () {
-        const $data = ($('form')).serialize();
-        console.log($data)
+
+    $("#summary").on("click", function () {  // TODO zmienić element html na button submit
+        const apiURL = "http://127.0.0.1:8000/gift_form_submit";
+        const $data = ($('#gift_form')).serializeArray();
+        console.log($data);
+
+        $.ajax({
+            url: `${apiURL}`,
+            method: "POST",
+            data: $data,
+            dataType: "json"
+        }).done(function (resp) {
+            console.log(resp)
+        }).fail(function (xhr, status, err) {
+            console.log(xhr, status, err);
+        });
     })
 });
