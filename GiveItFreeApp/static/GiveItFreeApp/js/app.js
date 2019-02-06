@@ -265,7 +265,7 @@ $(function () {
      */
     $("#institution_search_button").on("click", function () {
         const $trustedInstitutions = $(".trusted_institutions");
-        const apiURL = "http://127.0.0.1:8000/trusted_institutions_list";
+        const apiURL = "http://127.0.0.1:8001/trusted_institutions_list";
 
         const $localization = $('#localization').find("div.dropdown").find("div").text();
         const $organization_search = $("#organization_search").val();
@@ -306,7 +306,7 @@ $(function () {
             });
         }
 
-        $(".trusted_institutions").empty();
+        $trustedInstitutions.empty();
         loadTrustedInstitutions();
 
 
@@ -327,8 +327,11 @@ $(function () {
 
     });
 
-    $("#gift_form_submit").on("click", function () {  // TODO zmienić element html na button submit
-        const apiURL = "http://127.0.0.1:8000/gift_form_submit";
+    /**
+     * Save data to databas
+     */
+    $("#gift_form_submit").on("click", function () {
+        const apiURL = "http://127.0.0.1:8001/gift_form_submit";
         const $data = ($('#gift_form')).serializeArray();
         console.log($data);
 
@@ -342,5 +345,41 @@ $(function () {
         }).fail(function (xhr, status, err) {
             console.log(xhr, status, err);
         });
+    });
+
+    /**
+     * Summary before form submit
+     */
+    $("#summary").on("click", function () {
+        const $gift_types = [];
+        $.each($("input[name='gift_type']:checked"), function () {
+            $gift_types.push($(this).val());
+        });
+        const $bags_number = $("input[name='number_of_bags']").val();
+        const $summary_gift_types = `Worki: ${$bags_number}; Oddajesz: ${$gift_types.join(", ")}`;
+        $("#summary_gift_types").text($summary_gift_types);
+
+        const $trusted_institution = $("input[name='trusted_institution']:checked").parent().find("div.title").text();
+        $("#summary_trusted_institution").text($trusted_institution);
+
+        const $summary_address = $("#summary_address");
+        const $li_street = $("<li>").text(`${$("input[name='street']").val()}`);
+        const $li_city = $("<li>").text(`${$("input[name='city']").val()}`);
+        const $li_postal_code = $("<li>").text(`${$("input[name='postal_code']").val()}`);
+        const $li_phone_number = $("<li>").text(`${$("input[name='phone_number']").val()}`);
+        $summary_address.empty();
+        $summary_address.append($li_street, $li_city, $li_postal_code, $li_phone_number);
+
+        const $summary_date_and_time = $("#summary_date_and_time");
+        const $li_date = $("<li>").text(`${$("input[name='pick_up_date']").val()}`);
+        const $li_time = $("<li>").text(`${$("input[name='pick_up_time']").val()}`);
+        const $notes = $("textarea[name='comments']").val();
+        if ($notes === "") {
+            var $li_notes = $("<li>").text("Brak uwag");
+        } else {
+            var $li_notes = $("<li>").text($notes);
+        }
+        $summary_date_and_time.empty();
+        $summary_date_and_time.append($li_date, $li_time, $li_notes);
     })
 });
