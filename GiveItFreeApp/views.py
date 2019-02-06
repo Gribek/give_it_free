@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -111,11 +112,11 @@ class PasswordChangeView(LoginRequiredMixin, View):
 
 class TrustedInstitutionsView(APIView):
     def get(self, request, format=None):
+        trusted_institutions = TrustedInstitution.objects.all()
         if request.is_ajax():
             localization = request.GET.get('localization')
             target_groups_list = request.GET.getlist('target_groups[]')
             institution_name = request.GET.get('institution_name')
-            trusted_institutions = TrustedInstitution.objects.all()
             if institution_name:
                 trusted_institutions = trusted_institutions.filter(name__contains=institution_name)
             if localization != "- wybierz -":
@@ -133,10 +134,13 @@ class GiftSave(APIView):
             current_user = request.user
             address_serializer = PickUpAddressSerializer(data=request.data)
             gift_serializer = GiftSerializer(data=request.data)
-            if address_serializer.is_valid() and gift_serializer.is_valid():
-                address_instance = address_serializer.save()
-                gift_serializer.save(giver=current_user, pick_up_address=address_instance)
-                return Response(address_serializer.data)
+            if not gift_serializer.is_valid():
+                return Response(gift_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            if not address_serializer.is_valid():
+                return Response(address_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            address_instance = address_serializer.save()
+            gift_serializer.save(giver=current_user, pick_up_address=address_instance)
+            return Response(gift_serializer.data)
 
 
 class GiftSummary(APIView):

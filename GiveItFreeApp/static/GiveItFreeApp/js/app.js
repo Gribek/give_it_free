@@ -327,7 +327,7 @@ $(function () {
 
     });
 
-    $("#summary").on("click", function () {  // TODO zmienić element html na button submit
+    $("#gift_form_submit").on("click", function () {  // TODO zmienić element html na button submit
         const apiURL = "http://127.0.0.1:8000/gift_form_submit";
         const $data = ($('#gift_form')).serializeArray();
         console.log($data);
