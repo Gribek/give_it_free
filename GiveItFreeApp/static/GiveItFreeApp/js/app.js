@@ -265,7 +265,7 @@ $(function () {
      */
     $("#institution_search_button").on("click", function () {
         const $trustedInstitutions = $(".trusted_institutions");
-        const apiURL = "http://127.0.0.1:8001/trusted_institutions_list";
+        const apiURL = "http://127.0.0.1:8000/trusted_institutions_list";
 
         const $localization = $('#localization').find("div.dropdown").find("div").text();
         const $organization_search = $("#organization_search").val();
@@ -331,7 +331,7 @@ $(function () {
      * Save data to databas
      */
     $("#gift_form_submit").on("click", function () {
-        const apiURL = "http://127.0.0.1:8001/gift_form_submit";
+        const apiURL = "http://127.0.0.1:8000/gift_form_submit";
         const $data = ($('#gift_form')).serializeArray();
         console.log($data);
 
@@ -353,7 +353,7 @@ $(function () {
     $("#summary").on("click", function () {
         const $gift_types = [];
         $.each($("input[name='gift_type']:checked"), function () {
-            $gift_types.push($(this).val());
+            $gift_types.push($(this).parent().find("span.description").text());
         });
         const $bags_number = $("input[name='number_of_bags']").val();
         const $summary_gift_types = `Worki: ${$bags_number}; Oddajesz: ${$gift_types.join(", ")}`;
