@@ -25,8 +25,8 @@
             <li class="logged-user">
                 Witaj {{ request.user.first_name }}
                 <ul class="dropdown">
-                    <li><a href="#">Profil</a></li>
-                    <li><a href="#">Ustawienia</a></li>
+                    <li><a href="/profile">Profil</a></li>
+                    <li><a href="/edit_profile">Ustawienia</a></li>
                     <li><a href="#">Moje zbiórki</a></li>
                     <li><a href="/logout">Wyloguj</a></li>
                 </ul>
@@ -37,7 +37,7 @@
         {% endif %}
     </ul>
     <ul>
-        <li><a href="" class="btn btn--without-border active">Start</a></li>
+        <li><a href="/" class="btn btn--without-border active">Start</a></li>
         <li><a href="/#steps" class="btn btn--without-border">O co chodzi?</a></li>
         <li><a href="/#about" class="btn btn--without-border">O nas</a></li>
         <li><a href="/#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
@@ -46,19 +46,6 @@
 </nav>
 
 {% block slogan %}
-    <div class="slogan container container--90">
-        <div class="slogan--item">
-            <h1>
-                Zacznij pomagać!<br/>
-                Oddaj niechciane rzeczy w zaufane ręce
-            </h1>
-
-            <ul class="slogan--buttons">
-                <li><a href="/main_page" class="btn btn--large">Oddaj rzeczy</a></li>
-                <li><a href="#" class="btn btn--large">Zorganizuj zbiórkę</a></li>
-            </ul>
-        </div>
-    </div>
 {% endblock %}
 
 </header>

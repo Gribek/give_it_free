@@ -1,0 +1,38 @@
+{% extends "GiveItFreeApp/base_user.html" %}
+
+{% block content %}
+    <h2>Twoje dary</h2>
+    {% if gifts %}
+        <table class="table-gifts">
+            <tr>
+                <th>Data utworzenia</th>
+                <th>Przekazano</th>
+                <th>Ilość worków 60l</th>
+                <th>Organizacja</th>
+                <th>Status</th>
+                <th>Data odebrania</th>
+            </tr>
+            {% for gift in gifts %}
+                <tr>
+                    <td>{{ gift.creation_date }}</td>
+                    <td>{% for elem in gift.gift_type %} {{ elem }}, {% endfor %}</td>
+                    <td>{{ gift.number_of_bags }}</td>
+                    <td>{{ gift.trusted_institution }}</td>
+                    <td>{{ gift.is_transferred|yesno:"Odebrane,Nieodebrane" }}
+                        {% if gift.is_transferred == False %}
+                       <form><button class="btn-table-gifts" formaction="/confirm_transfer/{{ gift.id }}" formmethod="post">Potwierdź odbiór</button>
+                       {% csrf_token %}</form>
+                    {% endif %}</td>
+                    <td>{% if gift.transfer_date %}{{ gift.transfer_date }}{% else %}Brak{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="about-us">
+            <div class="about-us--text">
+                <p>Nie przekazałeś jeszcze żadnej darowizny</p>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -2,7 +2,7 @@
 
 {% block content %}
     <section class="login-page">
-        <h2>Zmień dane</h2>
+        <h2>Zmień swoje dane</h2>
         <form method="post">
             {% for field in form %}
                 <div class="form-group">
@@ -11,6 +11,7 @@
                 </div>
             {% endfor %}
             <div class="form-group form-group--buttons">
+                <a href="/edit_password" class="btn btn--without-border">Zmień hasło</a>
                 <button class="btn" type="submit">Zapisz zmiany</button>
             </div>
             {% csrf_token %}

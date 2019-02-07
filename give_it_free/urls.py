@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^edit_profile$', EditUserProfileView .as_view()),
     url(r'^edit_password$', PasswordChangeView .as_view()),
     url(r'^trusted_institutions_list$', TrustedInstitutionsView.as_view()),
-    url(r'^gift_form_summary$', GiftSummary.as_view()),
     url(r'^gift_form_submit$', GiftSave.as_view()),
+    url(r'^profile$', ProfileView.as_view()),
+    url(r'^confirm_transfer/(?P<id>\d+)$', ConfirmTransferView.as_view()),
 
 ]

@@ -6,6 +6,7 @@ from django.views import View
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from datetime import datetime
 
 from GiveItFreeApp.forms import *
 from GiveItFreeApp.models import TrustedInstitution, TargetGroup
@@ -86,7 +87,7 @@ class EditUserProfileView(View):
         form = EditUserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect("/profile")
+            return redirect("/edit_profile")
         return render(request, "GiveItFreeApp/edit_profile.html", {'form': form})
 
 
@@ -106,6 +107,22 @@ class PasswordChangeView(LoginRequiredMixin, View):
             current_user.save()
             return redirect("/login")
         return render(request, "GiveItFreeApp/password_change.html", {'form': form})
+
+
+class ProfileView(View):
+    def get(self, request):
+        current_user = request.user
+        gifts = Gift.objects.filter(giver=current_user).order_by("creation_date", "-is_transferred", "transfer_date")
+        return render(request, "GiveItFreeApp/profile.html", {'gifts': gifts})
+
+
+class ConfirmTransferView(View):
+    def post(self, request, id):
+        gift = Gift.objects.get(pk=id)
+        gift.is_transferred = True
+        gift.transfer_date = datetime.now()
+        gift.save()
+        return redirect("/profile")
 
 
 # * * * * * REST * * * * * #
@@ -141,7 +158,3 @@ class GiftSave(APIView):
             address_instance = address_serializer.save()
             gift_serializer.save(giver=current_user, pick_up_address=address_instance)
             return Response(gift_serializer.data)
-
-
-class GiftSummary(APIView):
-    pass
