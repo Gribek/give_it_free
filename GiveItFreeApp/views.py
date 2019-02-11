@@ -142,7 +142,7 @@ class TrustedInstitutionsView(APIView):
                 target_groups = TargetGroup.objects.filter(pk__in=target_groups_list)
                 trusted_institutions = trusted_institutions.filter(target_groups__in=target_groups)
         serializer = TrustedInstitutionSerializer(trusted_institutions, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class GiftSave(APIView):
@@ -157,4 +157,4 @@ class GiftSave(APIView):
                 return Response(address_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             address_instance = address_serializer.save()
             gift_serializer.save(giver=current_user, pick_up_address=address_instance)
-            return Response(gift_serializer.data)
+            return Response(gift_serializer.data, status=status.HTTP_201_CREATED)
