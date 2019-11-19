@@ -4,8 +4,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.utils.translation import ugettext_lazy as _
 
 
-# Create your models here.
-
 class UserManager(BaseUserManager):
     """New model manager for new User model"""
 

@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -13,7 +13,6 @@ from GiveItFreeApp.models import TrustedInstitution, TargetGroup
 from GiveItFreeApp.serializers import *
 
 
-# Create your views here.
 class LandingPage(View):
     def get(self, request):
         return render(request, "GiveItFreeApp/index.html")
@@ -24,8 +23,6 @@ class MainPageUser(LoginRequiredMixin, View):
         ctx = {"target_groups": TargetGroup.objects.all().order_by("name")}
         return render(request, "GiveItFreeApp/form.html", ctx)
 
-
-# * * * * * Users * * * * * #
 
 class LoginView(View):
     def get(self, request):
@@ -124,8 +121,6 @@ class ConfirmTransferView(View):
         gift.save()
         return redirect("/profile")
 
-
-# * * * * * REST * * * * * #
 
 class TrustedInstitutionsView(APIView):
     def get(self, request, format=None):
