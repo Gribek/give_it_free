@@ -42,7 +42,7 @@ class LoginView(View):
                     return redirect(next_view)
                 if user.is_superuser:
                     return redirect("/admin")
-                return redirect("/main_page")
+                return redirect('main_page')
             else:
                 return render(request, "GiveItFreeApp/login.html", {'form': form})
         return render(request, "GiveItFreeApp/login.html", {'form': form})
@@ -52,7 +52,7 @@ class LogoutView(View):
     def get(self, request):
         if request.user.is_authenticated:
             logout(request)
-            return redirect("/")
+            return redirect('landing_page')
         else:
             return HttpResponse("Nie jesteś zalogowany")
 
@@ -70,7 +70,7 @@ class RegistrationView(View):
             name = form.cleaned_data.get('name')
             surname = form.cleaned_data.get('surname')
             User.objects.create_user(email=email, password=password, first_name=name, last_name=surname)
-            return redirect('/login')
+            return redirect('login')
         return render(request, "GiveItFreeApp/register.html", {'form': form})
 
 
@@ -84,7 +84,7 @@ class EditUserProfileView(View):
         form = EditUserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect("/edit_profile")
+            return redirect('edit_profile')
         return render(request, "GiveItFreeApp/edit_profile.html", {'form': form})
 
 
@@ -98,11 +98,11 @@ class PasswordChangeView(LoginRequiredMixin, View):
         if form.is_valid():
             new_password = form.cleaned_data.get("new_password")
             if not request.user.is_authenticated:
-                return redirect("/")
+                return redirect('landing_page')
             current_user = request.user
             current_user.set_password(new_password)
             current_user.save()
-            return redirect("/login")
+            return redirect('login')
         return render(request, "GiveItFreeApp/password_change.html", {'form': form})
 
 
@@ -119,7 +119,7 @@ class ConfirmTransferView(View):
         gift.is_transferred = True
         gift.transfer_date = datetime.now()
         gift.save()
-        return redirect("/profile")
+        return redirect('profile')
 
 
 class TrustedInstitutionsView(APIView):
