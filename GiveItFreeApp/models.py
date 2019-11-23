@@ -41,50 +41,60 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     """New User model"""
 
-    username = None  # remove username field inherited from AbstractUser model
+    # remove username field inherited from AbstractUser model
+    username = None
     email = models.EmailField(_('email address'), unique=True)
 
-    USERNAME_FIELD = 'email'  # email field will be used as username filed before (login, authentication, etc.)
-    REQUIRED_FIELDS = []  # remove email from REQUIRED_FIELDS, USERNAME_FIELD is required automatically
+    # email field will be used as username filed before
+    # with login, authentication, etc.
+    USERNAME_FIELD = 'email'
 
-    objects = UserManager()  # assign new manager to User model
+    # remove email from REQUIRED_FIELDS,
+    # USERNAME_FIELD is required automatically
+    REQUIRED_FIELDS = []
+
+    # assign new manager to User model
+    objects = UserManager()
 
 
 class TrustedInstitution(models.Model):
-    name = models.CharField(max_length=64, verbose_name="Nazwa instytucji")
-    purpose = models.CharField(max_length=128, verbose_name="Cel i misja")
-    needs = models.CharField(max_length=128, verbose_name="Potrzebne datki")
-    localization = models.CharField(max_length=64, verbose_name="Lokalizacja")
-    target_groups = models.ManyToManyField("TargetGroup", verbose_name="Grupy docelowe")
+    name = models.CharField(max_length=64, verbose_name='Nazwa instytucji')
+    purpose = models.CharField(max_length=128, verbose_name='Cel i misja')
+    needs = models.CharField(max_length=128, verbose_name='Potrzebne datki')
+    localization = models.CharField(max_length=64, verbose_name='Lokalizacja')
+    target_groups = models.ManyToManyField('TargetGroup',
+                                           verbose_name='Grupy docelowe')
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Zaufaną instytucję"
-        verbose_name_plural = "Zaufane instytucje"
+        verbose_name = 'Zaufaną instytucję'
+        verbose_name_plural = 'Zaufane instytucje'
 
 
 class TargetGroup(models.Model):
-    name = models.CharField(max_length=32, verbose_name="Nazwa grupy")
+    name = models.CharField(max_length=32, verbose_name='Nazwa grupy')
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Grupę docelową"
-        verbose_name_plural = "Grupy docelowe"
+        verbose_name = 'Grupę docelową'
+        verbose_name_plural = 'Grupy docelowe'
 
 
 class Gift(models.Model):
     gift_type = ArrayField(models.CharField(max_length=32))
     number_of_bags = models.SmallIntegerField()
     giver = models.ForeignKey(User, on_delete=models.CASCADE)
-    trusted_institution = models.ForeignKey(TrustedInstitution, on_delete=models.CASCADE)
+    trusted_institution = models.ForeignKey(TrustedInstitution,
+                                            on_delete=models.CASCADE)
     creation_date = models.DateField(auto_now_add=True)
     transfer_date = models.DateField(null=True)
     is_transferred = models.BooleanField(default=False)
-    pick_up_address = models.OneToOneField("PickUpAddress", on_delete=models.CASCADE)
+    pick_up_address = models.OneToOneField('PickUpAddress',
+                                           on_delete=models.CASCADE)
 
 
 class PickUpAddress(models.Model):
