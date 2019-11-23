@@ -11,7 +11,7 @@ class TrustedInstitutionSerializer(serializers.Serializer):
 class PickUpAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = PickUpAddress
-        fields = ('street', 'city', 'postal_code', 'phone_number', 'pick_up_date', 'pick_up_time', 'comments')
+        fields = '__all__'
 
 
 class GiftSerializer(serializers.ModelSerializer):
