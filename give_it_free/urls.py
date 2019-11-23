@@ -33,6 +33,6 @@ urlpatterns = [
         name='trusted_institutions'),
     url(r'^gift_form_submit$', GiftSave.as_view(), name='gift_form_submit'),
     url(r'^profile$', ProfileView.as_view(), name='profile'),
-    url(r'^confirm_transfer/(?P<id>\d+)$', ConfirmTransferView.as_view(),
+    url(r'^confirm_transfer/(?P<gift_id>\d+)$', ConfirmTransferView.as_view(),
         name='confirm_transfer'),
 ]
