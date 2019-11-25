@@ -75,9 +75,9 @@ class PasswordChangeForm(forms.Form):
         attrs={'placeholder': 'Powtórz nowe hasło'}))
 
     def clean(self):
-        cleaned_date = super().clean()
-        field1 = cleaned_date.get('new_password')
-        field2 = cleaned_date.get('repeat_password')
+        cleaned_data = super().clean()
+        field1 = cleaned_data.get('new_password')
+        field2 = cleaned_data.get('repeat_password')
         if field1 != field2:
             raise ValidationError('Wpisane hasła muszą być takie same')
-        return cleaned_date
+        return cleaned_data
