@@ -14,22 +14,48 @@ from GiveItFreeApp.serializers import *
 
 
 class LandingPage(View):
+    """Class view for the landing page."""
+
     def get(self, request):
+        """Display application's landing page.
+
+        :param request: request object
+        :return: landing page view
+        """
         return render(request, 'GiveItFreeApp/index.html')
 
 
 class MainPageUser(LoginRequiredMixin, View):
+    """Class view for the main page."""
+
     def get(self, request):
+        """Display application's main page.
+
+        :param request: request object
+        :return: main page view
+        """
         ctx = {'target_groups': TargetGroup.objects.all().order_by('name')}
         return render(request, 'GiveItFreeApp/form.html', ctx)
 
 
 class LoginView(View):
+    """The class view that logs in users."""
+
     def get(self, request):
+        """Display login form.
+
+        :param request: request object
+        :return: login page view
+        """
         form = LoginForm()
         return render(request, 'GiveItFreeApp/login.html', {'form': form})
 
     def post(self, request):
+        """Log in a user.
+
+        :param request: request object
+        :return: main page view or login page view with error massage
+        """
         form = LoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email')
@@ -50,7 +76,14 @@ class LoginView(View):
 
 
 class LogoutView(View):
+    """The class view that logs out users."""
+
     def get(self, request):
+        """Log out a user.
+
+        :param request: request object
+        :return: landing page view
+        """
         if request.user.is_authenticated:
             logout(request)
             return redirect('landing_page')
@@ -59,11 +92,24 @@ class LogoutView(View):
 
 
 class RegistrationView(View):
+    """The class view that registers new users."""
+
     def get(self, request):
+        """Display registration form.
+
+        :param request: request object
+        :return: registration form view
+        """
         form = RegistrationForm()
         return render(request, 'GiveItFreeApp/register.html', {'form': form})
 
     def post(self, request):
+        """Register a new user.
+
+        :param request: request object
+        :return: login page view or registration form with error
+            massage
+        """
         form = RegistrationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get('email')
@@ -77,13 +123,25 @@ class RegistrationView(View):
 
 
 class EditUserProfileView(View):
+    """The class view that changes user data"""
+
     def get(self, request):
+        """Display user data edit form.
+
+        :param request: request object
+        :return: user data edit form view
+        """
         current_user = request.user
         form = EditUserProfileForm(instance=current_user)
         return render(request, 'GiveItFreeApp/edit_profile.html',
                       {'form': form})
 
     def post(self, request):
+        """Save changes to user data.
+
+        :param request: request object
+        :return: user data edit form view
+        """
         form = EditUserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
@@ -93,12 +151,25 @@ class EditUserProfileView(View):
 
 
 class PasswordChangeView(LoginRequiredMixin, View):
+    """The class view that changes user password"""
+
     def get(self, request):
+        """Display a password change form.
+
+        :param request: request object
+        :return: password change form view
+        """
         form = PasswordChangeForm()
         return render(request, 'GiveItFreeApp/password_change.html',
                       {'form': form})
 
     def post(self, request):
+        """Change user password.
+
+        :param request: request object
+        :return: login page view or password change form view with
+            error massage
+        """
         form = PasswordChangeForm(request.POST)
         if form.is_valid():
             new_password = form.cleaned_data.get('new_password')
@@ -113,7 +184,14 @@ class PasswordChangeView(LoginRequiredMixin, View):
 
 
 class ProfileView(View):
+    """The class view that shows all user gifts."""
+
     def get(self, request):
+        """Display information about all user gifts.
+
+        :param request: request object
+        :return: view of all gifts prepared by a user
+        """
         current_user = request.user
         gifts = Gift.objects.filter(giver=current_user).order_by(
             'creation_date', '-is_transferred', 'transfer_date')
@@ -121,7 +199,15 @@ class ProfileView(View):
 
 
 class ConfirmTransferView(View):
+    """The class to confirm pick up of the gift by courier."""
+
     def post(self, request, gift_id):
+        """Confirm that gift has been handed over.
+
+        :param request: request object
+        :param gift_id: id of a gift
+        :return: view of all user gifts
+        """
         gift = Gift.objects.get(pk=gift_id)
         gift.is_transferred = True
         gift.transfer_date = datetime.now()
@@ -130,7 +216,15 @@ class ConfirmTransferView(View):
 
 
 class TrustedInstitutionsView(APIView):
+    """The class that finds trusted institutions for gift form."""
+
     def get(self, request, format=None):
+        """Search for institutions that match the criteria.
+
+        :param request: request object
+        :param format: format
+        :return: serialized data about trusted institutions
+        """
         trusted_institutions = TrustedInstitution.objects.all()
         if request.is_ajax():
             localization = request.GET.get('localization')
@@ -153,7 +247,15 @@ class TrustedInstitutionsView(APIView):
 
 
 class GiftSave(APIView):
+    """The class that saves user gifts to the database."""
+
     def post(self, request, format=None):
+        """Save information about the gift and pick up address.
+
+        :param request: request object
+        :param format: format
+        :return: serialized data about the gift
+        """
         if request.is_ajax:
             current_user = request.user
             address_serializer = PickUpAddressSerializer(data=request.data)
