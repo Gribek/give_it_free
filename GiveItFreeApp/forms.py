@@ -6,6 +6,11 @@ from django.core.exceptions import ValidationError
 from GiveItFreeApp.models import User
 
 
+def validate_email(value):
+    if User.objects.filter(email=value).exists():
+        raise ValidationError('Ten adres email jest już zajęty')
+
+
 class LoginForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
@@ -24,7 +29,8 @@ class LoginForm(forms.Form):
 
 class RegistrationForm(forms.Form):
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+        validators=[validate_email], widget=forms.EmailInput(
+            attrs={'placeholder': 'Email'}))
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}))
     repeat_password = forms.CharField(
@@ -38,16 +44,13 @@ class RegistrationForm(forms.Form):
         cleaned_data = super().clean()
         password1 = cleaned_data.get('password')
         password2 = cleaned_data.get('repeat_password')
-        email = cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            self.add_error('email', 'Ten adres email jest już zajęty')
         if password1 != password2:
             self.add_error('repeat_password',
                            'Wpisane hasła muszą byc takie same')
         return cleaned_data
 
 
-class EditUserProfileForm(ModelForm):  # TODO Email change validation
+class EditUserProfileForm(ModelForm):
     class Meta:
         model = User
         fields = ['email', 'first_name', 'last_name']
@@ -56,6 +59,13 @@ class EditUserProfileForm(ModelForm):  # TODO Email change validation
             'first_name': forms.TextInput(attrs={'placeholder': 'Imię'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Nazwisko'}),
         }
+
+    def clean_email(self):
+        current_email = self.initial.get('email')
+        email = self.cleaned_data.get('email')
+        if email != current_email:
+            validate_email(email)
+        return email
 
 
 class PasswordChangeForm(forms.Form):
