@@ -28,12 +28,18 @@ def validate_repeat_password(password, repeat_password):
 
 
 class LoginForm(forms.Form):
+    """User login form."""
+
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}))
 
     def clean(self):
+        """Validate user email and password.
+
+        :return: validated data
+        """
         super().clean()
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
@@ -44,6 +50,8 @@ class LoginForm(forms.Form):
 
 
 class RegistrationForm(forms.Form):
+    """User registration form."""
+
     email = forms.EmailField(
         validators=[validate_email], widget=forms.EmailInput(
             attrs={'placeholder': 'Email'}))
@@ -57,6 +65,10 @@ class RegistrationForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'Nazwisko'}))
 
     def clean_repeat_password(self):
+        """Validate repeat password.
+
+        :return: repeat password
+        """
         password = self.cleaned_data.get('password')
         repeat_password = self.cleaned_data.get('repeat_password')
         validate_repeat_password(password, repeat_password)
@@ -64,6 +76,8 @@ class RegistrationForm(forms.Form):
 
 
 class EditUserProfileForm(ModelForm):
+    """User profile editing form."""
+
     class Meta:
         model = User
         fields = ['email', 'first_name', 'last_name']
@@ -74,6 +88,10 @@ class EditUserProfileForm(ModelForm):
         }
 
     def clean_email(self):
+        """Validate email.
+
+        :return: email
+        """
         current_email = self.initial.get('email')
         email = self.cleaned_data.get('email')
         if email != current_email:
@@ -82,12 +100,18 @@ class EditUserProfileForm(ModelForm):
 
 
 class PasswordChangeForm(forms.Form):
+    """User password change form."""
+
     new_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': 'Nowe hasło'}))
     repeat_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': 'Powtórz nowe hasło'}))
 
     def clean_repeat_password(self):
+        """Validate repeat password.
+
+        :return: repeat password
+        """
         password = self.cleaned_data.get('new_password')
         repeat_password = self.cleaned_data.get('repeat_password')
         validate_repeat_password(password, repeat_password)
