@@ -1,12 +1,11 @@
+from datetime import datetime
 from django.contrib.auth import login, logout
-from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from datetime import datetime
 
 from GiveItFreeApp.forms import *
 from GiveItFreeApp.models import TrustedInstitution, TargetGroup
