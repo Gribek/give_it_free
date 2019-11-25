@@ -7,11 +7,22 @@ from GiveItFreeApp.models import User
 
 
 def validate_email(value):
+    """Check if email is not used.
+
+    :param value: email
+    :return: None
+    """
     if User.objects.filter(email=value).exists():
         raise ValidationError('Ten adres email jest już zajęty')
 
 
-def validate_repeated_password(password, repeat_password):
+def validate_repeat_password(password, repeat_password):
+    """Check if password and repeat_password are the same.
+
+    :param password: password
+    :param repeat_password: repeat password
+    :return: None
+    """
     if password != repeat_password:
         raise ValidationError('Wpisane hasła muszą byc takie same')
 
@@ -48,7 +59,7 @@ class RegistrationForm(forms.Form):
     def clean_repeat_password(self):
         password = self.cleaned_data.get('password')
         repeat_password = self.cleaned_data.get('repeat_password')
-        validate_repeated_password(password, repeat_password)
+        validate_repeat_password(password, repeat_password)
         return repeat_password
 
 
@@ -79,5 +90,5 @@ class PasswordChangeForm(forms.Form):
     def clean_repeat_password(self):
         password = self.cleaned_data.get('new_password')
         repeat_password = self.cleaned_data.get('repeat_password')
-        validate_repeated_password(password, repeat_password)
+        validate_repeat_password(password, repeat_password)
         return repeat_password
