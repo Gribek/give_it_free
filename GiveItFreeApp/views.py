@@ -86,9 +86,7 @@ class LogoutView(View):
         """
         if request.user.is_authenticated:
             logout(request)
-            return redirect('landing_page')
-        else:
-            return HttpResponse('Nie jesteś zalogowany')
+        return redirect('landing_page')
 
 
 class RegistrationView(View):
