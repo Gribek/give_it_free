@@ -11,6 +11,11 @@ def validate_email(value):
         raise ValidationError('Ten adres email jest już zajęty')
 
 
+def validate_repeated_password(password, repeat_password):
+    if password != repeat_password:
+        raise ValidationError('Wpisane hasła muszą byc takie same')
+
+
 class LoginForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
@@ -40,14 +45,11 @@ class RegistrationForm(forms.Form):
     surname = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Nazwisko'}))
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password1 = cleaned_data.get('password')
-        password2 = cleaned_data.get('repeat_password')
-        if password1 != password2:
-            self.add_error('repeat_password',
-                           'Wpisane hasła muszą byc takie same')
-        return cleaned_data
+    def clean_repeat_password(self):
+        password = self.cleaned_data.get('password')
+        repeat_password = self.cleaned_data.get('repeat_password')
+        validate_repeated_password(password, repeat_password)
+        return repeat_password
 
 
 class EditUserProfileForm(ModelForm):
@@ -74,10 +76,8 @@ class PasswordChangeForm(forms.Form):
     repeat_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': 'Powtórz nowe hasło'}))
 
-    def clean(self):
-        cleaned_data = super().clean()
-        field1 = cleaned_data.get('new_password')
-        field2 = cleaned_data.get('repeat_password')
-        if field1 != field2:
-            raise ValidationError('Wpisane hasła muszą być takie same')
-        return cleaned_data
+    def clean_repeat_password(self):
+        password = self.cleaned_data.get('new_password')
+        repeat_password = self.cleaned_data.get('repeat_password')
+        validate_repeated_password(password, repeat_password)
+        return repeat_password
