@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
@@ -7,9 +7,11 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from GiveItFreeApp.forms import *
-from GiveItFreeApp.models import TrustedInstitution, TargetGroup
-from GiveItFreeApp.serializers import *
+from GiveItFreeApp.models import TrustedInstitution, TargetGroup, Gift, User
+from GiveItFreeApp.forms import PasswordChangeForm, RegistrationForm, \
+    LoginForm, EditUserProfileForm
+from GiveItFreeApp.serializers import TrustedInstitutionSerializer, \
+    PickUpAddressSerializer, GiftSerializer
 
 
 class LandingPage(View):

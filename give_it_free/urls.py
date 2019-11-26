@@ -16,7 +16,11 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
-from GiveItFreeApp.views import *
+from GiveItFreeApp.views import (
+    LandingPage, LoginView, LogoutView, MainPageUser, RegistrationView,
+    EditUserProfileView, PasswordChangeView, ProfileView, GiftSave,
+    ConfirmTransferView, TrustedInstitutionsView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
