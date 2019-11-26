@@ -11,7 +11,7 @@
                 </div>
             {% endfor %}
             <div class="form-group form-group--buttons">
-                <a href="/edit_password" class="btn btn--without-border">Zmień hasło</a>
+                <a href="{% url 'edit_password' %}" class="btn btn--without-border">Zmień hasło</a>
                 <button class="btn" type="submit">Zapisz zmiany</button>
             </div>
             {% csrf_token %}
