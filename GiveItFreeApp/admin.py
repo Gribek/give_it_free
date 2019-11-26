@@ -4,14 +4,13 @@ from django.utils.translation import ugettext_lazy as _
 from GiveItFreeApp.models import User, TrustedInstitution, TargetGroup
 
 # Register your models here.
-
 admin.site.register(TrustedInstitution)
 admin.site.register(TargetGroup)
 
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    """Admin model for new User model with no email field."""
+    """Admin model for new User model with no username field."""
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name')}),

@@ -58,6 +58,8 @@ class User(AbstractUser):
 
 
 class TrustedInstitution(models.Model):
+    """Represents a single trusted institution."""
+
     name = models.CharField(max_length=64, verbose_name='Nazwa instytucji')
     purpose = models.CharField(max_length=128, verbose_name='Cel i misja')
     needs = models.CharField(max_length=128, verbose_name='Potrzebne datki')
@@ -66,6 +68,7 @@ class TrustedInstitution(models.Model):
                                            verbose_name='Grupy docelowe')
 
     def __str__(self):
+        """Return a string representation of the model."""
         return self.name
 
     class Meta:
@@ -77,6 +80,7 @@ class TargetGroup(models.Model):
     name = models.CharField(max_length=32, verbose_name='Nazwa grupy')
 
     def __str__(self):
+        """Return a string representation of the model."""
         return self.name
 
     class Meta:
@@ -85,6 +89,8 @@ class TargetGroup(models.Model):
 
 
 class Gift(models.Model):
+    """Represents a single gift."""
+
     gift_type = ArrayField(models.CharField(max_length=32))
     number_of_bags = models.SmallIntegerField()
     giver = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -98,6 +104,8 @@ class Gift(models.Model):
 
 
 class PickUpAddress(models.Model):
+    """Represents a single pick up address."""
+
     street = models.CharField(max_length=64)
     city = models.CharField(max_length=32)
     postal_code = models.CharField(max_length=8)
