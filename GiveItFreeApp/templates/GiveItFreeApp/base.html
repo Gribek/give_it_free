@@ -25,15 +25,14 @@
             <li class="logged-user">
                 Witaj {{ request.user.first_name }}
                 <ul class="dropdown">
-                    <li><a href="/profile">Profil</a></li>
-                    <li><a href="/edit_profile">Ustawienia</a></li>
-                    <li><a href="#">Moje zbiórki</a></li>
-                    <li><a href="/logout">Wyloguj</a></li>
+                    <li><a href="{% url 'profile' %}">Profil</a></li>
+                    <li><a href="{% url 'edit_profile' %}">Ustawienia</a></li>
+                    <li><a href="{% url 'logout' %}">Wyloguj</a></li>
                 </ul>
             </li>
         {% else %}
-            <li><a href="/login" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="/registration" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
+            <li><a href="{% url 'registration' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         {% endif %}
     </ul>
     <ul>
