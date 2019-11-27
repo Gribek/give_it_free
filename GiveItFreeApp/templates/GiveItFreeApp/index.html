@@ -96,47 +96,26 @@
         <div class="help--slides active" data-id="1">
             <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym
                 się zajmują, komu pomagają i czego potrzebują.</p>
-            <ul class="help--slides-items active" data-page="1">
-                <li>
+            {% for group in trusted_institutions %}
+                <ul class="help--slides-items{% if forloop.counter == 1 %} active{% endif %}" data-page="{{forloop.counter}}">
+                {% for institution in group %}
+                    <li>
                     <div class="col">
-                        <div class="title">Fundacja "Dbam o Zdrowie"</div>
-                        <div class="subtitle">Cel i misja: Pomoc dzieciom z ubogich rodzin.</div>
+                        <div class="title">{{institution.name}}</div>
+                        <div class="subtitle">{{institution.purpose}}</div>
                     </div>
-
                     <div class="col">
-                        <div class="text">ubrania, jedzenie, sprzęt AGD, meble, zabawki</div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="col">
-                        <div class="title">Fundacja “Dla dzieci"</div>
-                        <div class="subtitle">Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji życiowej.
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">ubrania, meble, zabawki</div>
+                        <div class="text">{{institution.needs}}</div>
                     </div>
                 </li>
-            </ul>
-            <ul class="help--slides-items" data-page="2">
-                <li>
-                    <div class="col">
-                        <div class="title">Fundacja “Bez domu”</div>
-                        <div class="subtitle">Cel i misja: Pomoc dla osób nie posiadających miejsca zamieszkania</div>
-                    </div>
-
-                    <div class="col">
-                        <div class="text">ubrania, jedzenie, ciepłe koce</div>
-                    </div>
-                </li>
-            </ul>
+                {% endfor %}
+                </ul>
+            {% endfor %}
 
             <ul class="help--slides-pagination">
-                <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-                <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-                <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
+                {% for i in trusted_institutions %}
+                    <li><a href="#" class="btn btn--small btn--without-border{% if forloop.counter == 1 %} active{% endif %}" data-page="{{forloop.counter}}">{{ forloop.counter }}</a></li>
+                {% endfor %}
             </ul>
         </div>
 

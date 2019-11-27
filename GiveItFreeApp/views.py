@@ -23,7 +23,11 @@ class LandingPage(View):
         :param request: request object
         :return: landing page view
         """
-        return render(request, 'GiveItFreeApp/index.html')
+        trusted_institutions = TrustedInstitution.objects.all()
+        institutions_grouped = [tuple(trusted_institutions[i:i+3]) for i in
+                                range(0, len(trusted_institutions), 3)]
+        ctx = {'trusted_institutions': institutions_grouped}
+        return render(request, 'GiveItFreeApp/index.html', ctx)
 
 
 class MainPageUser(LoginRequiredMixin, View):
