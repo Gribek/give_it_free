@@ -56,14 +56,24 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        /**
-         * TODO: callback to page change event
-         */
         changePage(e) {
             e.preventDefault();
-            const page = e.target.dataset.page;
+            const $page = e.target;
+            const $pageButtonsContainer = $page.parentElement.parentElement;
+            const $pageItemsContainers = $pageButtonsContainer.parentElement.querySelectorAll('.help--slides-items');
 
-            console.log(page);
+            [...$pageButtonsContainer.children].forEach(btn => btn.firstElementChild.classList.remove("active"));
+            $page.classList.add("active");
+
+            const $currentPage = $page.dataset.page;
+
+            $pageItemsContainers.forEach(el => {
+                el.classList.remove("active");
+
+                if (el.dataset.page === $currentPage) {
+                    el.classList.add("active");
+                }
+            });
         }
     }
 

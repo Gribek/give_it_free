@@ -1419,6 +1419,14 @@ header nav ul li:last-of-type {
   padding: 0;
 }
 
+.help--slides-items {
+  display: none;
+}
+
+.help--slides-items.active {
+  display: block;
+}
+
 /* line 43, scss/modules/homepage-sections/_help.scss */
 .help--slides-items li {
   display: -webkit-box;
