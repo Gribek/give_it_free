@@ -7,7 +7,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from GiveItFreeApp.models import TrustedInstitution, TargetGroup, Gift, User
+from GiveItFreeApp.models import TrustedInstitution, TargetGroup, Gift, User, \
+    CharityCollection
 from GiveItFreeApp.forms import PasswordChangeForm, RegistrationForm, \
     LoginForm, EditUserProfileForm
 from GiveItFreeApp.serializers import TrustedInstitutionSerializer, \
@@ -24,9 +25,13 @@ class LandingPage(View):
         :return: landing page view
         """
         trusted_institutions = TrustedInstitution.objects.all()
-        institutions_grouped = [tuple(trusted_institutions[i:i+3]) for i in
+        institutions_grouped = [tuple(trusted_institutions[i:i + 3]) for i in
                                 range(0, len(trusted_institutions), 3)]
-        ctx = {'trusted_institutions': institutions_grouped}
+        number_of_bags = sum(i.number_of_bags for i in Gift.objects.all())
+        ctx = {'trusted_institutions': institutions_grouped,
+               'supported_organizations': len(trusted_institutions),
+               'charity_collections': len(CharityCollection.objects.all()),
+               'number_of_bags': number_of_bags}
         return render(request, 'GiveItFreeApp/index.html', ctx)
 
 
