@@ -113,3 +113,13 @@ class PickUpAddress(models.Model):
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     comments = models.TextField(null=True)
+
+
+class CharityCollection(models.Model):
+    """Represents a single charity collection."""
+
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
+    deadline = models.DateField()
+    purpose = models.CharField(max_length=128, verbose_name='Cel zbiórki')
+    items_needed = models.CharField(max_length=128,
+                                    verbose_name='Co jest potrzebne')
