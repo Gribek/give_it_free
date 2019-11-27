@@ -65,7 +65,7 @@ class RegistrationForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'Nazwisko'}))
 
     def clean_repeat_password(self):
-        """Validate repeat password.
+        """Validate repeated password.
 
         :return: repeat password
         """
