@@ -131,22 +131,10 @@
 
                 <!-- STEP 3 -->
                 <div data-step="3">
-                    <h3>Lokalizacja:</h3>
+                    <h3>Komu chcesz pomóc?:</h3>
 
-                    <div id="localization" class="form-group form-group--dropdown">
-                        <select name="localization">
-                            <option value="0">- wybierz -</option>
-                            <option value="warsaw">Warszawa</option>
-                            <option value="wroclaw">Wrocław</option>
-                            <option value="poznan">Poznań</option>
-                            <option value="gdansk">Gdańsk</option>
-                        </select>
-                    </div>
-
-                    <div class="form-section">
-                        <h4>Komu chcesz pomóc?</h4>
+                     <div class="form-section">
                         <div class="form-section--checkboxes">
-
                             {% for target_group in target_groups %}
                                 <div class="form-group form-group--checkbox">
                                     <label>
@@ -156,6 +144,19 @@
                                 </div>
                             {% endfor %}
                         </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Lokalizacja (opcjonalne, nie wybieraj lokalizacji jeśli chcesz wspomóc lokalną zbiórkę)</h4>
+                    </div>
+                    <div id="localization" class="form-group form-group--dropdown">
+                        <select name="localization">
+                            <option value="0">- wybierz -</option>
+                            <option value="warsaw">Warszawa</option>
+                            <option value="wroclaw">Wrocław</option>
+                            <option value="poznan">Poznań</option>
+                            <option value="gdansk">Gdańsk</option>
+                        </select>
                     </div>
 
                     <div class="form-section">
