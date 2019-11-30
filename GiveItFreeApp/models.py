@@ -123,3 +123,4 @@ class CharityCollection(models.Model):
     purpose = models.CharField(max_length=128, verbose_name='Cel zbiórki')
     items_needed = models.CharField(max_length=128,
                                     verbose_name='Co jest potrzebne')
+    address = models.CharField(max_length=256, verbose_name='Pełen adres')
