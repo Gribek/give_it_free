@@ -275,32 +275,27 @@ $(function () {
      */
     $("#institution_search_button").on("click", function () {
         const $trustedInstitutions = $(".trusted_institutions");
-        const apiURL = "http://127.0.0.1:8000/trusted_institutions_list";
-
-        const $localization = $('#localization').find("div.dropdown").find("div").text();
-        const $organization_search = $("#organization_search").val();
         const $help = [];
         $.each($("input[name^='help']:checked"), function () {
             $help.push($(this).data("id"));
         });
 
-        console.log($help);
-        console.log($organization_search);
-        console.log($localization);
-
-        const data = {
-            'localization': $localization,
-            'institution_name': $organization_search,
+        const $data = {
+            'localization': $('#localization').find("div.dropdown div").text(),
+            'institution_name': $("#organization_search").val(),
             'target_groups[]': $help,
-            // 'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
         };
 
+        $trustedInstitutions.empty();
+        loadTrustedInstitutions();
+
+        console.log($data);
 
         function loadTrustedInstitutions() {
             $.ajax({
-                url: apiURL,
+                url: "http://127.0.0.1:8000/trusted_institutions_list",
                 method: "GET",
-                data: data,
+                data: $data,
                 dataType: "json"
             }).done(function (resp) {
                 if (resp.length === 0) {
@@ -315,9 +310,6 @@ $(function () {
                 console.log(xhr, status, err);
             });
         }
-
-        $trustedInstitutions.empty();
-        loadTrustedInstitutions();
 
 
         function insertTrustedInstitution(trustedInstitution) {
