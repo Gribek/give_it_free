@@ -847,6 +847,14 @@ form.form--contact textarea::placeholder {
   color: #3c3c3c;
 }
 
+form div.errors {
+  color: red;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 1.8rem;
+}
+
 /* line 2, scss/modules/_header.scss */
 header.header--main-page {
   background-image: url(../images/header-bg.jpg);

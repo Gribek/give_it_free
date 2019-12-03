@@ -324,6 +324,8 @@ $(function () {
 
     });
 
+    let $errors = [];
+
     /**
      * Save data to database
      */
@@ -345,39 +347,64 @@ $(function () {
     });
 
     /**
-     * Summary before form submit
+     * Summary before form submit & form validation
      */
     $("#summary").on("click", function () {
+        $errors = [];
+
         const $gift_types = [];
         $.each($("input[name='gift_type']:checked"), function () {
             $gift_types.push($(this).parent().find("span.description").text());
         });
+        if ($gift_types.length === 0) {
+            $errors.push("rodzaj daru")
+        }
         const $bags_number = $("input[name='number_of_bags']").val();
         const $summary_gift_types = `Worki: ${$bags_number}; Oddajesz: ${$gift_types.join(", ")}`;
         $("#summary_gift_types").text($summary_gift_types);
+        if ($bags_number === "") {
+            $errors.push("ilość worków")
+        }
 
         const $trusted_institution = $("input[name='trusted_institution']:checked").parent().find("div.title").text();
         $("#summary_trusted_institution").text($trusted_institution);
+        if ($trusted_institution === "") {
+            $errors.push("organizacja")
+        }
 
         const $summary_address = $("#summary_address");
-        const $li_street = $("<li>").text(`${$("input[name='street']").val()}`);
-        const $li_city = $("<li>").text(`${$("input[name='city']").val()}`);
-        const $li_postal_code = $("<li>").text(`${$("input[name='postal_code']").val()}`);
-        const $li_phone_number = $("<li>").text(`${$("input[name='phone_number']").val()}`);
+        const $street = `${$("input[name='street']").val()}`;
+        const $city = (`${$("input[name='city']").val()}`);
+        const $postal_code = (`${$("input[name='postal_code']").val()}`);
+        const $phone_number = (`${$("input[name='phone_number']").val()}`);
         $summary_address.empty();
-        $summary_address.append($li_street, $li_city, $li_postal_code, $li_phone_number);
+        $summary_address.append($("<li>").text($street), $("<li>").text($city),
+            $("<li>").text($postal_code), $("<li>").text($phone_number));
+        if ($street === "" || $city === "" || $postal_code === "" || $phone_number === "") {
+            $errors.push("adres odbioru")
+        }
 
         const $summary_date_and_time = $("#summary_date_and_time");
-        const $li_date = $("<li>").text(`${$("input[name='pick_up_date']").val()}`);
-        const $li_time = $("<li>").text(`${$("input[name='pick_up_time']").val()}`);
+        const $date = (`${$("input[name='pick_up_date']").val()}`);
+        const $time = (`${$("input[name='pick_up_time']").val()}`);
         const $notes = $("textarea[name='comments']").val();
         const $li_notes = $("<li>");
         if ($notes === "") {
             $li_notes.text("Brak uwag");
         } else {
-           $li_notes.text($notes);
+            $li_notes.text($notes);
         }
         $summary_date_and_time.empty();
-        $summary_date_and_time.append($li_date, $li_time, $li_notes);
+        $summary_date_and_time.append($("<li>").text($date), $("<li>").text($time), $li_notes);
+        if ($date === "" || $time === "") {
+            $errors.push("data odbioru")
+        }
+        if ($errors.length !== 0) {
+            $("#gift_form_submit").hide();
+            $("div.errors").text(`Uzupełnij następujące informacje: ${$errors.join(", ")}`);
+        } else {
+            $("#gift_form_submit").show();
+            $("div.errors").text("")
+        }
     })
 });
