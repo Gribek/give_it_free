@@ -19,7 +19,7 @@ from django.urls import path
 from GiveItFreeApp.views import (
     LandingPage, LoginView, LogoutView, MainPageUser, RegistrationView,
     EditUserProfileView, PasswordChangeView, ProfileView, GiftSave,
-    ConfirmTransferView, TrustedInstitutionsView,
+    ConfirmTransferView, TrustedInstitutionsView, OrganizeCollection
 )
 
 urlpatterns = [
@@ -39,4 +39,6 @@ urlpatterns = [
     url(r'^profile$', ProfileView.as_view(), name='profile'),
     url(r'^confirm_transfer/(?P<gift_id>\d+)$', ConfirmTransferView.as_view(),
         name='confirm_transfer'),
+    url(r'^add_collection$', OrganizeCollection.as_view(),
+        name='add_collection'),
 ]

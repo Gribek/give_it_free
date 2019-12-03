@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from GiveItFreeApp.models import TrustedInstitution, TargetGroup, Gift, User, \
     CharityCollection
 from GiveItFreeApp.forms import PasswordChangeForm, RegistrationForm, \
-    LoginForm, EditUserProfileForm
+    LoginForm, EditUserProfileForm, CharityCollectionForm
 from GiveItFreeApp.serializers import TrustedInstitutionSerializer, \
     PickUpAddressSerializer, GiftSerializer
 
@@ -279,3 +279,21 @@ class GiftSave(APIView):
                                  pick_up_address=address_instance)
             return Response(gift_serializer.data,
                             status=status.HTTP_201_CREATED)
+
+
+class OrganizeCollection(View):
+    """The class view that creates new charity collection."""
+
+    def get(self, request):
+        form = CharityCollectionForm()
+        return render(request, 'GiveItFreeApp/collection_add.html',
+                      {'form': form})
+
+    def post(self, request):
+        form = CharityCollectionForm(request.POST)
+        if form.is_valid():
+            form.instance.organizer = request.user
+            form.save()
+            return redirect('main_page')
+        return render(request, 'GiveItFreeApp/collection_add.html',
+                      {'form': form})

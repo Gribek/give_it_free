@@ -1,0 +1,21 @@
+{% extends "GiveItFreeApp/base_user.html" %}
+
+{% block content %}
+    <section class="login-page">
+        <h2>Zorganizuj zbiórkę</h2>
+        <form method="post">
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.errors }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <div class="form-group form-group--buttons">
+                <button class="btn" type="submit">Załóż zbiórkę</button>
+                <a href="{% url 'landing_page' %}"
+                   class="btn btn--without-border">Anuluj</a>
+            </div>
+            {% csrf_token %}
+        </form>
+    </section>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 
-from GiveItFreeApp.models import User
+from GiveItFreeApp.models import User, CharityCollection
 
 
 def validate_email(value):
@@ -116,3 +116,19 @@ class PasswordChangeForm(forms.Form):
         repeat_password = self.cleaned_data.get('repeat_password')
         validate_repeat_password(password, repeat_password)
         return repeat_password
+
+
+class CharityCollectionForm(ModelForm):
+    """New charity collection form."""
+
+    class Meta:
+        model = CharityCollection
+        exclude = ['organizer']
+        widgets = {
+            'deadline': forms.DateInput(
+                attrs={'placeholder': 'Termin końcowy'}),
+            'purpose': forms.Textarea(attrs={'placeholder': 'Cel zbiórki'}),
+            'items_needed': forms.Textarea(
+                attrs={'placeholder': 'Potrzebne rzeczy'}),
+            'address': forms.Textarea(attrs={'placeholder': 'Adres'}),
+        }
