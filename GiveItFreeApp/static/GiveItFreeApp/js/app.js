@@ -371,10 +371,11 @@ $(function () {
         const $li_date = $("<li>").text(`${$("input[name='pick_up_date']").val()}`);
         const $li_time = $("<li>").text(`${$("input[name='pick_up_time']").val()}`);
         const $notes = $("textarea[name='comments']").val();
+        const $li_notes = $("<li>");
         if ($notes === "") {
-            var $li_notes = $("<li>").text("Brak uwag");
+            $li_notes.text("Brak uwag");
         } else {
-            var $li_notes = $("<li>").text($notes);
+           $li_notes.text($notes);
         }
         $summary_date_and_time.empty();
         $summary_date_and_time.append($li_date, $li_time, $li_notes);
