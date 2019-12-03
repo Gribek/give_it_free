@@ -324,8 +324,6 @@ $(function () {
 
     });
 
-    let $errors = [];
-
     /**
      * Save data to database
      */
@@ -350,7 +348,7 @@ $(function () {
      * Summary before form submit & form validation
      */
     $("#summary").on("click", function () {
-        $errors = [];
+        let $errors = [];
 
         const $gift_types = [];
         $.each($("input[name='gift_type']:checked"), function () {
