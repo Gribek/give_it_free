@@ -308,3 +308,17 @@ class OrganizeCollection(View):
             return redirect('main_page')
         return render(request, 'GiveItFreeApp/collection_add.html',
                       {'form': form})
+
+
+class CollectionsView(View):
+    """The class view that shows all user charity collections."""
+
+    def get(self, request):
+        """Display information about all user collections.
+
+        :param request: request object
+        :return: view of all collections started by a user
+        """
+        collections = CharityCollection.objects.filter(organizer=request.user)
+        return render(request, 'GiveItFreeApp/charity_collections.html',
+                      {'collections': collections})
