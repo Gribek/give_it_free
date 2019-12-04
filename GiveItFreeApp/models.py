@@ -126,3 +126,7 @@ class CharityCollection(models.Model):
     creation_date = models.DateField(auto_now_add=True)
     deadline = models.DateField(verbose_name='Termin końcowy zbiórki')
     is_authorized = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Zbiórka charytatywna'
+        verbose_name_plural = 'Zbiórki charytatywne'
