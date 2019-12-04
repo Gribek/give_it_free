@@ -43,5 +43,5 @@ urlpatterns = [
     url(r'^add_collection$', OrganizeCollection.as_view(),
         name='add_collection'),
     url(r'^charity_collections$', CollectionsView.as_view(),
-        name='collections_view')
+        name='charity_collections')
 ]

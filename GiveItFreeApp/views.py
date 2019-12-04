@@ -305,7 +305,7 @@ class OrganizeCollection(View):
         if form.is_valid():
             form.instance.organizer = request.user
             form.save()
-            return redirect('main_page')
+            return redirect('charity_collections')
         return render(request, 'GiveItFreeApp/collection_add.html',
                       {'form': form})
 
