@@ -123,7 +123,7 @@ class CharityCollectionForm(ModelForm):
 
     class Meta:
         model = CharityCollection
-        exclude = ['organizer']
+        fields = ['purpose', 'items_needed', 'address', 'deadline']
         widgets = {
             'deadline': forms.DateInput(
                 attrs={'placeholder': 'Termin końcowy'}),
