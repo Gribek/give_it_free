@@ -285,11 +285,22 @@ class OrganizeCollection(View):
     """The class view that creates new charity collection."""
 
     def get(self, request):
+        """Display the form for creating a new charity collection.
+
+        :param request: request object
+        :return: form view
+        """
         form = CharityCollectionForm()
         return render(request, 'GiveItFreeApp/collection_add.html',
                       {'form': form})
 
     def post(self, request):
+        """Create a new charity collection.
+
+        :param request: request object
+        :return: list view of all user collections or form view with
+            error massages
+        """
         form = CharityCollectionForm(request.POST)
         if form.is_valid():
             form.instance.organizer = request.user
