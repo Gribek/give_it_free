@@ -1,0 +1,39 @@
+{% extends "GiveItFreeApp/base_user.html" %}
+
+{% block content %}
+    <h2>Twoje zbiórki</h2>
+    {% if collections %}
+        <table class="table-gifts">
+            <tr>
+                <th>Cel zbiórki</th>
+                <th>Potrzebne rzeczy</th>
+                <th>Adres organizatora</th>
+                <th>Termin początkowy zbiórki</th>
+                <th>Termin końcowy zbiórki</th>
+                <th>Zatwierdzenie zbiórki</th>
+
+            </tr>
+            {% for collection in collections %}
+                <tr>
+                    <td>{{ gift.creation_date }}</td>
+                    <td>{% for elem in gift.gift_type %} {{ elem }}, {% endfor %}</td>
+                    <td>{{ gift.number_of_bags }}</td>
+                    <td>{{ gift.trusted_institution }}</td>
+                    <td>{{ gift.is_transferred|yesno:"Odebrane,Nieodebrane" }}
+                        {% if gift.is_transferred == False %}
+                       <form><button class="btn-table-gifts" formaction="/confirm_transfer/{{ gift.id }}" formmethod="post">Potwierdź odbiór</button>
+                       {% csrf_token %}</form>
+                    {% endif %}</td>
+                    <td>{% if gift.transfer_date %}{{ gift.transfer_date }}{% else %}Brak{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="about-us">
+            <div class="about-us--text">
+                <p>Nie jesteś organizatorem żadnej zbiórki</p>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
