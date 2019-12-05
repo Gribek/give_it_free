@@ -19,7 +19,7 @@
             <li class="logged-user">
                 Witaj {{ request.user.first_name }}
                 <ul class="dropdown">
-                    <li><a href="{% url 'profile' %}">Profil</a></li>
+                    <li><a href="{% url 'profile' %}">Moje dary</a></li>
                     <li><a href="{% url 'charity_collections' %}">Moje zbiórki</a></li>
                     <li><a href="{% url 'edit_profile' %}">Ustawienia</a></li>
                     <li><a href="{% url 'logout' %}">Wyloguj</a></li>
