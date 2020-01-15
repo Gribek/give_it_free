@@ -30,7 +30,7 @@ class LandingPage(View):
                                 range(0, len(trusted_institutions), 3)]
         number_of_bags = sum(i.number_of_bags for i in Gift.objects.all())
         ctx = {'trusted_institutions': institutions_grouped,
-               'supported_organizations': len(trusted_institutions) - 1,
+               'supported_organizations': len(trusted_institutions),
                'charity_collections': len(CharityCollection.objects.all()),
                'number_of_bags': number_of_bags}
         return render(request, 'GiveItFreeApp/index.html', ctx)
