@@ -282,7 +282,7 @@ class GiftSave(APIView):
                             status=status.HTTP_201_CREATED)
 
 
-class OrganizeCollection(View):
+class OrganizeCollection(LoginRequiredMixin, View):
     """The class view that creates new charity collection."""
 
     def get(self, request):
@@ -311,7 +311,7 @@ class OrganizeCollection(View):
                       {'form': form})
 
 
-class CollectionsView(View):
+class CollectionsView(LoginRequiredMixin, View):
     """The class view that shows all user charity collections."""
 
     def get(self, request):
