@@ -288,7 +288,7 @@ $(function () {
 
         function loadTrustedInstitutions() {
             $.ajax({
-                url: "http://127.0.0.1:8000/trusted_institutions_list",
+                url: "http://give-it-free.herokuapp.com/trusted_institutions_list",
                 method: "GET",
                 data: $data,
                 dataType: "json"
@@ -328,7 +328,7 @@ $(function () {
      * Save data to database
      */
     $("#gift_form_submit").on("click", function () {
-        const apiURL = "http://127.0.0.1:8000/gift_form_submit";
+        const apiURL = "http://give-it-free.herokuapp.com/gift_form_submit";
         const $data = ($('#gift_form')).serializeArray();
         console.log($data);
 
