@@ -1,8 +1,5 @@
 # Give It Free
 
-
-# RunSchedules
-
 ### Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
